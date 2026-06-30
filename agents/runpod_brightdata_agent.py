@@ -2,10 +2,9 @@
 # retrieval when the agent needs to fetch external content before calling the model.
 
 from typing import Dict, Any, Optional
-import asyncio
 from .agent_base import Agent
 from .runpod_agent import RunpodClient
-from .brightdata import httpx_client_with_brightdata
+from .brightdata import async_httpx_client_with_brightdata
 
 class RunpodBrightdataAgent(Agent):
     @property
@@ -17,7 +16,7 @@ class RunpodBrightdataAgent(Agent):
         Fetches a URL using Brightdata proxy (if configured). Returns raw text.
         """
         # use async client configured for proxy
-        async with httpx_client_with_brightdata() as client:
+        async with async_httpx_client_with_brightdata() as client:
             resp = await client.get(url)
             resp.raise_for_status()
             return resp.text
